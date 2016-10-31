@@ -1,0 +1,7 @@
+.DS_Store
+
+#ZendStudio
+.buildpath
+.project
+.settings/
+.idea

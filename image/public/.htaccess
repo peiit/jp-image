@@ -1,0 +1,34 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
+
+    RewriteEngine On
+
+    # access original image
+    RewriteCond %{REQUEST_URI}  ^.+\.(jpg|gif|png|jpeg)$ [NC]
+    RewriteRule ^(\w+/)?(\w+)\.(jpg|gif|png|jpeg)$ /uimgs/$1$2/$2.$3  [NC,L]
+    
+    # try to read cached file firstly
+    RewriteCond %{REQUEST_URI} ^/crop/(\d+)/(\d+)/(\d+)/(\d+)/(.+?)\.(jpg|gif|png|jpeg)$ [NC]
+    RewriteRule ^crop/(\d+)/(\d+)/(\d+)/(\d+)/(\w+/)?(\w+)\.(jpg|gif|png|jpeg)$ /uimgs/$5$6/c_$1_$2_$3_$4_$6.$7 [NC,L]
+
+    # try to read cached file firstly
+    RewriteCond %{REQUEST_URI} ^/resize/(\d+)/(\d+)/(\d+)/(.+?)\.(jpg|gif|png|jpeg)$ [NC]
+    RewriteRule ^resize/(\d+)/(\d+)/(\d+)/(.+?)\.(jpg|gif|png|jpeg)$ /uimgs/$4/r_$1_$2_$3_$4.$5 [NC,L]
+
+    # Redirect Trailing Slashes...
+    RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    <FilesMatch ".(jpg|jpeg|gif|png)$">
+        Header set Cache-Control "max-age=290304000, public"
+    </FilesMatch>
+</IfModule>
