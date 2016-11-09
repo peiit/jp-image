@@ -1,9 +1,8 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use app\Libraries\ImageManipulator;
+use App\Libraries\ImageManipulator;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Input;
 
 class IndexController extends Controller
 {
@@ -101,7 +100,7 @@ class IndexController extends Controller
 
     public function upload(Request $request)
     {
-        $file = Input::file('file');
+        $file = $request->file('file');
         $dir = $request->get('module', '');
         $maxSize = config('constants.max_size');
         $baseDir = $this->baseDir;

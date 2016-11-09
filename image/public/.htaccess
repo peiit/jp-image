@@ -17,7 +17,8 @@
     RewriteCond %{REQUEST_URI} ^/resize/(\d+)/(\d+)/(\d+)/(.+?)\.(jpg|gif|png|jpeg)$ [NC]
     RewriteRule ^resize/(\d+)/(\d+)/(\d+)/(.+?)\.(jpg|gif|png|jpeg)$ /uimgs/$4/r_$1_$2_$3_$4.$5 [NC,L]
 
-    # Redirect Trailing Slashes...
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)/$ /$1 [L,R=301]
 
     # Handle Front Controller...
